@@ -12,6 +12,8 @@ namespace Focus.Views
 #if DEBUG
             this.AttachDevTools();
 #endif
+            this.Width = 520;
+            this.Height = 360;
         }
 
         private void InitializeComponent()

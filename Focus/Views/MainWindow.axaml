@@ -3,38 +3,137 @@
         xmlns:vm="using:Focus.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="520" d:DesignHeight="360"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Focus.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
         Title="Focus"
 		TransparencyLevelHint="AcrylicBlur"
 		Background="Transparent"
+		TransparencyBackgroundFallback="#2a2a2a"
+		MinWidth="400"
+		MinHeight="300"
+		Width="520"
+		Height="360"
+
 		
-		ExtendClientAreaToDecorationsHint="True">
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="NoChrome"
+        ExtendClientAreaTitleBarHeightHint="-1">
 
 	<Design.DataContext>
 		<vm:MainWindowViewModel/>
 	</Design.DataContext>
 
-	<Panel>
+	<Grid>
 		<!-- #232323-->
-		<ExperimentalAcrylicBorder IsHitTestVisible="False">
-			<ExperimentalAcrylicBorder.Material>
-				<ExperimentalAcrylicMaterial
-					BackgroundSource="Digger"
-					TintColor="#ff000000"
-					TintOpacity="1"
-					FallbackColor="#232323"
-					MaterialOpacity=".5"
-					/>
-			</ExperimentalAcrylicBorder.Material>
-		</ExperimentalAcrylicBorder>
-		<Canvas Background="#2a2a2a" Height="10">
-			<TextBlock> asd</TextBlock>
+		<!-- Custom titlebar reference: https://github.com/FrankenApps/Avalonia-CustomTitleBarTemplate/blob/master/Views/MainWindow.axaml -->
+		<!-- Titlebar -->
+		<DockPanel Background="#2a2a2a" Height="31" VerticalAlignment="Top" IsHitTestVisible="False">
+			<!-- Title -->
+			<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Foreground="#BFBFBF" Text="Focus" FontFamily="Segoe UI" FontSize="20" FontStyle="Normal" FontWeight="SemiLight"></TextBlock>
 
-		</Canvas>
-		<TextBlock Text="Ziel:" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="20" FontFamily="Segoe UI" Foreground="#CACCDC"></TextBlock>
-	</Panel>
+		</DockPanel>
+
+		<!-- Right window buttons -->
+		<StackPanel>
+			<StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Spacing="0" >
+				<Button Width="46" Height="30" HorizontalContentAlignment="Center" BorderThickness="0" Name="MinimizeButton" ToolTip.Tip="Minimize" VerticalContentAlignment="Center">
+					<Button.Resources>
+						<CornerRadius x:Key="ControlCornerRadius">0</CornerRadius>
+					</Button.Resources>
+					<Button.Styles>
+						<Style Selector="Button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+							<Setter Property="Background" Value="#44AAAAAA"/>
+						</Style>
+						<Style Selector="Button:not(:pointerover) /template/ ContentPresenter#PART_ContentPresenter">
+							<Setter Property="Background" Value="Transparent"/>
+						</Style>
+					</Button.Styles>
+					<Path Margin="10,0,10,0"
+						  Stretch="Uniform"
+						  Fill="#BFBFBF"
+						  Data="M2048 1229v-205h-2048v205h2048z"></Path>
+				</Button>
+
+				<Button Width="46" VerticalAlignment="Stretch" BorderThickness="0" Name="MaximizeButton" VerticalContentAlignment="Center">
+					<ToolTip.Tip>
+						<ToolTip Content="Maximize"
+								 Name="MaximizeToolTip"></ToolTip>
+					</ToolTip.Tip>
+
+					<Button.Resources>
+						<CornerRadius x:Key="ControlCornerRadius">0</CornerRadius>
+					</Button.Resources>
+					<Button.Styles>
+						<Style Selector="Button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+							<Setter Property="Background" Value="#44AAAAAA"/>
+						</Style>
+						<Style Selector="Button:not(:pointerover) /template/ ContentPresenter#PART_ContentPresenter">
+							<Setter Property="Background" Value="Transparent"/>
+						</Style>
+					</Button.Styles>
+					<Path Margin="10,0,10,0"
+						  Stretch="Uniform"
+						  Fill="#BFBFBF"
+						  Name="MaximizeIcon"
+						  Data="M2048 2048v-2048h-2048v2048h2048zM1843 1843h-1638v-1638h1638v1638z"></Path>
+				</Button>
+
+				<Button Width="46"
+						VerticalAlignment="Stretch"
+						BorderThickness="0"
+						Name="CloseButton"
+						ToolTip.Tip="Close"
+						VerticalContentAlignment="Center">
+					<Button.Resources>
+						<CornerRadius x:Key="ControlCornerRadius">0</CornerRadius>
+					</Button.Resources>
+					<Button.Styles>
+						<Style Selector="Button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+							<Setter Property="Background" Value="Red"/>
+						</Style>
+						<Style Selector="Button:not(:pointerover) /template/ ContentPresenter#PART_ContentPresenter">
+							<Setter Property="Background" Value="Transparent"/>
+						</Style>
+						<Style Selector="Button:pointerover > Path">
+							<!-- todo: button is not being set to white, as long as the fill property is already defined in the path element -->
+							<Setter Property="Fill" Value="White"/>
+						</Style>
+						<Style Selector="Button:not(:pointerover) > Path">
+							<Setter Property="Fill" Value="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
+						</Style>
+					</Button.Styles>
+					<Path Margin="10,0,10,0"
+						  Stretch="Uniform"
+						  Fill="#BFBFBF"
+						  Data="M1169 1024l879 -879l-145 -145l-879 879l-879 -879l-145 145l879 879l-879 879l145 145l879 -879l879 879l145 -145z"></Path>
+				</Button>
+			</StackPanel>
+		</StackPanel>
+
+
+		<Grid Margin="0 31 0 0">
+			<Grid.Background>
+				<SolidColorBrush Color="#232323" Opacity="0.9"></SolidColorBrush>
+			</Grid.Background>
+
+			<Grid Margin="50 20 50 0">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="80"></RowDefinition>
+				</Grid.RowDefinitions>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto"/>
+					<ColumnDefinition Width="*"/>
+				</Grid.ColumnDefinitions>
+
+				<TextBlock Text="Ziel:" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="20" FontFamily="Segoe UI" Foreground="#CACCDC" Margin="0 30 20 0" Grid.Column="0"></TextBlock>
+				<TextBox Grid.Column="1" Height="60" VerticalAlignment="Center" Watermark="Text eingeben ..."></TextBox>
+
+			</Grid>
+			
+		</Grid>
+
+	</Grid>
 	<!--<TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>-->
 
 </Window>
