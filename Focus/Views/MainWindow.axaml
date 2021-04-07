@@ -3,15 +3,38 @@
         xmlns:vm="using:Focus.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d" d:DesignWidth="520" d:DesignHeight="360"
         x:Class="Focus.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
-        Title="Focus">
+        Title="Focus"
+		TransparencyLevelHint="AcrylicBlur"
+		Background="Transparent"
+		
+		ExtendClientAreaToDecorationsHint="True">
 
-    <Design.DataContext>
-        <vm:MainWindowViewModel/>
-    </Design.DataContext>
+	<Design.DataContext>
+		<vm:MainWindowViewModel/>
+	</Design.DataContext>
 
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+	<Panel>
+		<!-- #232323-->
+		<ExperimentalAcrylicBorder IsHitTestVisible="False">
+			<ExperimentalAcrylicBorder.Material>
+				<ExperimentalAcrylicMaterial
+					BackgroundSource="Digger"
+					TintColor="#ff000000"
+					TintOpacity="1"
+					FallbackColor="#232323"
+					MaterialOpacity=".5"
+					/>
+			</ExperimentalAcrylicBorder.Material>
+		</ExperimentalAcrylicBorder>
+		<Canvas Background="#2a2a2a" Height="10">
+			<TextBlock> asd</TextBlock>
+
+		</Canvas>
+		<TextBlock Text="Ziel:" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="20" FontFamily="Segoe UI" Foreground="#CACCDC"></TextBlock>
+	</Panel>
+	<!--<TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>-->
 
 </Window>
