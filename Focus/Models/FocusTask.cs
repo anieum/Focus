@@ -15,6 +15,7 @@ namespace Focus.Models
         private CancellationToken _cToken;
 
         private int _distractionCounter;
+        private bool _isPaused;
 
         public event EventHandler TaskEnded;
         public event EventHandler TaskPausedOrContinued;
@@ -27,6 +28,11 @@ namespace Focus.Models
         public TimeSpan TimeRemaining
         {
             get => EndTime == NODATE ? PlanedEndTime - StartTime : TimeSpan.MinValue;
+        }
+
+        public bool IsPaused
+        {
+            get => _isPaused;
         }
 
         public bool HasEnded

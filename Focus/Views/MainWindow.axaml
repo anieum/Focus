@@ -3,7 +3,7 @@
         xmlns:vm="using:Focus.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d" d:DesignWidth="520" d:DesignHeight="360"
         x:Class="Focus.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
         Title="Focus"
@@ -20,6 +20,8 @@
         ExtendClientAreaChromeHints="NoChrome"
         ExtendClientAreaTitleBarHeightHint="-1">
 
+	<!-- TODO: Icon="/Assets/avalonia-logo.ico" => Create and use Zen circle as logo -->
+	
 	<Design.DataContext>
 		<vm:MainWindowViewModel/>
 	</Design.DataContext>
@@ -141,8 +143,24 @@
 						<ColumnDefinition Width="Auto" />
 						<ColumnDefinition />
 					</Grid.ColumnDefinitions>
+					<Grid.Styles>
+						<Style Selector="Grid > TextBox">
+							<Setter Property="BorderThickness" Value="0"></Setter>	
+						</Style>
+						<!-- This selector is not enough. Look here: https://github.com/AvaloniaUI/Avalonia/blob/master/src/Avalonia.Themes.Default/TextBox.xaml -->
+						<Style Selector="TextBox:focus Border#border">
+							<Setter Property="BorderThickness" Value="0"/>
+						</Style>
+						<Style Selector="Border">
+							<Setter Property="CornerRadius" Value="7"/>
+							<Setter Property="Background" Value="#343434"/>
+						</Style>
+					</Grid.Styles>
 					<TextBlock Text="Ziel:" FontSize="20" FontFamily="Segoe UI" Foreground="#CACCDC" Margin="0 30 20 0" Grid.Column="0" Width="40"></TextBlock>
+
+					<!-- Round corner somehow? https://stackoverflow.com/questions/4779777/wpf-rounded-corner-textbox -->
 					<TextBox Grid.Column="1" Height="60" VerticalAlignment="Center" Watermark="Text eingeben ..." Text="{Binding UserEnteredText}" FontSize="16" TextWrapping="Wrap"></TextBox>
+						
 				</Grid>
 
 
@@ -178,23 +196,33 @@
 						<StackPanel.Styles>
 							<Style Selector="StackPanel > Button">
 								<Setter Property="Padding" Value="14"></Setter>
+								<Setter Property="Margin" Value="0 0 10 0"></Setter>
 							</Style>
 						</StackPanel.Styles>
-						<Button IsDefault="True" Command="{Binding StartTaskCommand}">
+						<Button IsDefault="True" Command="{Binding StartTaskCommand}" IsVisible="{Binding FocusTaskIsStartable}">
+							<Button.Resources>
+								<CornerRadius x:Key="ControlCornerRadius">10</CornerRadius>
+							</Button.Resources>
 							<PathIcon Data="{StaticResource play_regular}"></PathIcon>
 						</Button>
-						<Button>
+						<Button Command="{Binding PauseTaskCommand}" IsVisible="{Binding FocusTaskIsPausable}">
+							<Button.Resources>
+								<CornerRadius x:Key="ControlCornerRadius">10</CornerRadius>
+							</Button.Resources>
 							<PathIcon Data="{StaticResource pause_regular}"></PathIcon>
 						</Button>
-						<Button>
+						<Button Command="{Binding StopTaskCommand}" IsVisible="{Binding FocusTaskIsStoppable}">
+							<Button.Resources>
+								<CornerRadius x:Key="ControlCornerRadius">10</CornerRadius>
+							</Button.Resources>
 							<PathIcon Data="{StaticResource stop_regular}"></PathIcon>
 						</Button>
 					</StackPanel>
 				</DockPanel>
 				<DockPanel Grid.Row="2" Grid.Column="1">
 					<StackPanel HorizontalAlignment="Right" VerticalAlignment="Bottom">
-						<TextBlock Text="Verlauf" FontSize="13" FontFamily="Segoe UI" Foreground="#CACCDC" TextDecorations="Underline" ToolTip.Tip="Not implemented yet"></TextBlock>
-						<TextBlock Text="Einstellungen" FontSize="13" FontFamily="Segoe UI" Foreground="#CACCDC" TextDecorations="Underline" ToolTip.Tip="Not implemented yet"></TextBlock>
+						<TextBlock HorizontalAlignment="Right" Text="Verlauf" FontSize="13" FontFamily="Segoe UI" Foreground="#CACCDC" TextDecorations="Underline" ToolTip.Tip="Not implemented yet"></TextBlock>
+						<TextBlock HorizontalAlignment="Right" Text="Einstellungen" FontSize="13" FontFamily="Segoe UI" Foreground="#CACCDC" TextDecorations="Underline" ToolTip.Tip="Not implemented yet"></TextBlock>
 					</StackPanel>
 					
 				</DockPanel>
