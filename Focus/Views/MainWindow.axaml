@@ -25,10 +25,13 @@
 	</Design.DataContext>
 
 	<Grid>
+		<!-- Icons -->
+
+		
 		<!-- #232323-->
 		<!-- Custom titlebar reference: https://github.com/FrankenApps/Avalonia-CustomTitleBarTemplate/blob/master/Views/MainWindow.axaml -->
 		<!-- Titlebar -->
-		<DockPanel Background="#2a2a2a" Height="31" VerticalAlignment="Top" IsHitTestVisible="False">
+		<DockPanel Background="#2a2a2a" Height="34" VerticalAlignment="Top" IsHitTestVisible="False">
 			<!-- Title -->
 			<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Foreground="#BFBFBF" Text="Focus" FontFamily="Segoe UI" FontSize="20" FontStyle="Normal" FontWeight="SemiLight"></TextBlock>
 
@@ -37,7 +40,7 @@
 		<!-- Right window buttons -->
 		<StackPanel>
 			<StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Spacing="0" >
-				<Button Width="46" Height="30" HorizontalContentAlignment="Center" BorderThickness="0" Name="MinimizeButton" ToolTip.Tip="Minimize" VerticalContentAlignment="Center">
+				<Button Width="46" Height="34" HorizontalContentAlignment="Center" BorderThickness="0" Name="MinimizeButton" ToolTip.Tip="Minimize" VerticalContentAlignment="Center">
 					<Button.Resources>
 						<CornerRadius x:Key="ControlCornerRadius">0</CornerRadius>
 					</Button.Resources>
@@ -112,7 +115,8 @@
 		</StackPanel>
 
 
-		<Grid Margin="0 31 0 0">
+		<!-- Content -->
+		<Grid Margin="0 34 0 0">
 			<Grid.Background>
 				<SolidColorBrush Color="#232323" Opacity="0.9"></SolidColorBrush>
 			</Grid.Background>
@@ -120,14 +124,84 @@
 			<Grid Margin="50 20 50 0">
 				<Grid.RowDefinitions>
 					<RowDefinition Height="80"></RowDefinition>
+					<RowDefinition Height="150" ></RowDefinition>
+					<RowDefinition Height="50" ></RowDefinition>
 				</Grid.RowDefinitions>
 				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="Auto"/>
-					<ColumnDefinition Width="*"/>
+					<ColumnDefinition Width="0.4*"/>
+					<ColumnDefinition Width="0.6*"/>
+					
 				</Grid.ColumnDefinitions>
 
-				<TextBlock Text="Ziel:" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="20" FontFamily="Segoe UI" Foreground="#CACCDC" Margin="0 30 20 0" Grid.Column="0"></TextBlock>
-				<TextBox Grid.Column="1" Height="60" VerticalAlignment="Center" Watermark="Text eingeben ..."></TextBox>
+				<Border Grid.Column ="1" Background="#1f3d7a"/>
+				<Border Grid.Column="1" Grid.ColumnSpan="1" Background="Red"/>
+
+				<!-- Grid.Columnspan => Makes Stackpanel span over 2 colums -->
+				<Grid Grid.ColumnSpan="2">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition />
+					</Grid.ColumnDefinitions>
+					<TextBlock Text="Ziel:" FontSize="20" FontFamily="Segoe UI" Foreground="#CACCDC" Margin="30 30 20 0" Grid.Column="0" Width="40"></TextBlock>
+					<TextBox Grid.Column="1" Height="60" VerticalAlignment="Center" Watermark="Text eingeben ..."></TextBox>
+				</Grid>
+
+
+				<StackPanel VerticalAlignment="Center" Background="Black" Orientation="Horizontal" Grid.ColumnSpan="2">
+
+				</StackPanel>
+				<StackPanel Grid.Row="1" Background="Green" >
+					<StackPanel.Styles>
+						<Style Selector="StackPanel > TextBlock">
+							<Setter Property="Margin" Value="30 10 0 0"></Setter>
+						</Style>
+					</StackPanel.Styles>
+					
+					<TextBlock Text="Beginn" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="13" FontFamily="Segoe UI" Foreground="#CACCDC" Grid.Column="0" Grid.Row="1"></TextBlock>
+					<TextBlock Text="Ende" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="13" FontFamily="Segoe UI" Foreground="#CACCDC" Grid.Column="0" Grid.Row="1"></TextBlock>
+					<TextBlock Text="Ablenkungen" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="13" FontFamily="Segoe UI" Foreground="#CACCDC" Grid.Column="0" Grid.Row="1"></TextBlock>
+					<TextBlock Text="Erlaubte Fenster" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="13" FontFamily="Segoe UI" Foreground="#CACCDC" Grid.Column="0" Grid.Row="1"></TextBlock>
+				</StackPanel>
+				<StackPanel Grid.Row="1" Background="Blue" Grid.Column="1">
+					<StackPanel.Styles>
+						<Style Selector="StackPanel > TextBlock">
+							<Setter Property="Margin" Value="0 10 0 0"></Setter>
+						</Style>
+					</StackPanel.Styles>
+
+					<TextBlock Text=": Beginn" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="13" FontFamily="Segoe UI" Foreground="#CACCDC" Grid.Column="0" Grid.Row="1"></TextBlock>
+					<TextBlock Text=": Ende" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="13" FontFamily="Segoe UI" Foreground="#CACCDC" Grid.Column="0" Grid.Row="1"></TextBlock>
+					<TextBlock Text=": Ablenkungen" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="13" FontFamily="Segoe UI" Foreground="#CACCDC" Grid.Column="0" Grid.Row="1"></TextBlock>
+					<TextBlock Text=": Erlaubte Fenster" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="13" FontFamily="Segoe UI" Foreground="#CACCDC" Grid.Column="0" Grid.Row="1"></TextBlock>
+				</StackPanel>
+				<DockPanel Grid.Row="2" Background="Purple" Grid.Column="0">
+					<StackPanel Orientation="Horizontal" VerticalAlignment="Bottom">
+						<StackPanel.Styles>
+							<Style Selector="StackPanel > Button">
+								<Setter Property="Padding" Value="14"></Setter>
+							</Style>
+						</StackPanel.Styles>
+						<Button>
+							<PathIcon Data="{StaticResource play_regular}"></PathIcon>
+						</Button>
+						<Button>
+							<PathIcon Data="{StaticResource pause_regular}"></PathIcon>
+						</Button>
+						<Button>
+							<PathIcon Data="{StaticResource stop_regular}"></PathIcon>
+						</Button>
+					</StackPanel>
+				</DockPanel>
+				<DockPanel Grid.Row="2" Background="DarkCyan" Grid.Column="1">
+					<StackPanel HorizontalAlignment="Right" VerticalAlignment="Bottom">
+						<TextBlock Text="Verlauf" FontSize="13" FontFamily="Segoe UI" Foreground="#CACCDC" TextDecorations="Underline" ToolTip.Tip="Not implemented yet"></TextBlock>
+						<TextBlock Text="Einstellungen" FontSize="13" FontFamily="Segoe UI" Foreground="#CACCDC" TextDecorations="Underline" ToolTip.Tip="Not implemented yet"></TextBlock>
+					</StackPanel>
+					
+				</DockPanel>
+
+
+
 
 			</Grid>
 			
