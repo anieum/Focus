@@ -14,12 +14,15 @@ namespace Focus.Models
         private CancellationTokenSource _ctSource;
         private CancellationToken _cToken;
 
+        private int _distractionCounter;
+
         public event EventHandler TaskEnded;
         public event EventHandler TaskPausedOrContinued;
 
         public DateTime StartTime { get; set; }
         public DateTime PlanedEndTime { get; set; }
         public DateTime EndTime { get; private set; }
+        public static readonly FocusTask Empty = new FocusTask(DateTime.Now);
 
         public TimeSpan TimeRemaining
         {
@@ -29,6 +32,11 @@ namespace Focus.Models
         public bool HasEnded
         {
             get => TimeRemaining.Ticks == 0;
+        }
+
+        public int Distractions
+        {
+            get => _distractionCounter;
         }
 
 
@@ -43,6 +51,7 @@ namespace Focus.Models
             StartTime = DateTime.Now;
             PlanedEndTime = planedEndTime;
             EndTime = NODATE;
+            _distractionCounter = 0;
 
             TaskEnded += TaskEndedRoutine;
         }

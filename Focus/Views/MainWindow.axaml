@@ -133,8 +133,7 @@
 					
 				</Grid.ColumnDefinitions>
 
-				<Border Grid.Column ="1" Background="#1f3d7a"/>
-				<Border Grid.Column="1" Grid.ColumnSpan="1" Background="Red"/>
+				<Border Grid.Column="1" Grid.ColumnSpan="1"/>
 
 				<!-- Grid.Columnspan => Makes Stackpanel span over 2 colums -->
 				<Grid Grid.ColumnSpan="2">
@@ -142,18 +141,18 @@
 						<ColumnDefinition Width="Auto" />
 						<ColumnDefinition />
 					</Grid.ColumnDefinitions>
-					<TextBlock Text="Ziel:" FontSize="20" FontFamily="Segoe UI" Foreground="#CACCDC" Margin="30 30 20 0" Grid.Column="0" Width="40"></TextBlock>
-					<TextBox Grid.Column="1" Height="60" VerticalAlignment="Center" Watermark="Text eingeben ..."></TextBox>
+					<TextBlock Text="Ziel:" FontSize="20" FontFamily="Segoe UI" Foreground="#CACCDC" Margin="0 30 20 0" Grid.Column="0" Width="40"></TextBlock>
+					<TextBox Grid.Column="1" Height="60" VerticalAlignment="Center" Watermark="Text eingeben ..." Text="{Binding UserEnteredText}" FontSize="16" TextWrapping="Wrap"></TextBox>
 				</Grid>
 
 
 				<StackPanel VerticalAlignment="Center" Background="Black" Orientation="Horizontal" Grid.ColumnSpan="2">
 
 				</StackPanel>
-				<StackPanel Grid.Row="1" Background="Green" >
+				<StackPanel Grid.Row="1">
 					<StackPanel.Styles>
 						<Style Selector="StackPanel > TextBlock">
-							<Setter Property="Margin" Value="30 10 0 0"></Setter>
+							<Setter Property="Margin" Value="0 10 0 0"></Setter>
 						</Style>
 					</StackPanel.Styles>
 					
@@ -162,26 +161,26 @@
 					<TextBlock Text="Ablenkungen" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="13" FontFamily="Segoe UI" Foreground="#CACCDC" Grid.Column="0" Grid.Row="1"></TextBlock>
 					<TextBlock Text="Erlaubte Fenster" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="13" FontFamily="Segoe UI" Foreground="#CACCDC" Grid.Column="0" Grid.Row="1"></TextBlock>
 				</StackPanel>
-				<StackPanel Grid.Row="1" Background="Blue" Grid.Column="1">
+				<StackPanel Grid.Row="1" Grid.Column="1">
 					<StackPanel.Styles>
 						<Style Selector="StackPanel > TextBlock">
 							<Setter Property="Margin" Value="0 10 0 0"></Setter>
 						</Style>
 					</StackPanel.Styles>
 
-					<TextBlock Text=": Beginn" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="13" FontFamily="Segoe UI" Foreground="#CACCDC" Grid.Column="0" Grid.Row="1"></TextBlock>
-					<TextBlock Text=": Ende" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="13" FontFamily="Segoe UI" Foreground="#CACCDC" Grid.Column="0" Grid.Row="1"></TextBlock>
-					<TextBlock Text=": Ablenkungen" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="13" FontFamily="Segoe UI" Foreground="#CACCDC" Grid.Column="0" Grid.Row="1"></TextBlock>
-					<TextBlock Text=": Erlaubte Fenster" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="13" FontFamily="Segoe UI" Foreground="#CACCDC" Grid.Column="0" Grid.Row="1"></TextBlock>
+					<TextBlock Text="{Binding StartText}" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="13" FontFamily="Segoe UI" Foreground="#CACCDC" Grid.Column="0" Grid.Row="1"></TextBlock>
+					<TextBlock Text="{Binding EndText}" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="13" FontFamily="Segoe UI" Foreground="#CACCDC" Grid.Column="0" Grid.Row="1"></TextBlock>
+					<TextBlock Text="{Binding DistractionsText}" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="13" FontFamily="Segoe UI" Foreground="#CACCDC" Grid.Column="0" Grid.Row="1"></TextBlock>
+					<TextBlock Text="{Binding AllowedWindowsText}" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="13" FontFamily="Segoe UI" Foreground="#CACCDC" Grid.Column="0" Grid.Row="1"></TextBlock>
 				</StackPanel>
-				<DockPanel Grid.Row="2" Background="Purple" Grid.Column="0">
+				<DockPanel Grid.Row="2" Grid.Column="0">
 					<StackPanel Orientation="Horizontal" VerticalAlignment="Bottom">
 						<StackPanel.Styles>
 							<Style Selector="StackPanel > Button">
 								<Setter Property="Padding" Value="14"></Setter>
 							</Style>
 						</StackPanel.Styles>
-						<Button>
+						<Button IsDefault="True" Command="{Binding StartTaskCommand}">
 							<PathIcon Data="{StaticResource play_regular}"></PathIcon>
 						</Button>
 						<Button>
@@ -192,7 +191,7 @@
 						</Button>
 					</StackPanel>
 				</DockPanel>
-				<DockPanel Grid.Row="2" Background="DarkCyan" Grid.Column="1">
+				<DockPanel Grid.Row="2" Grid.Column="1">
 					<StackPanel HorizontalAlignment="Right" VerticalAlignment="Bottom">
 						<TextBlock Text="Verlauf" FontSize="13" FontFamily="Segoe UI" Foreground="#CACCDC" TextDecorations="Underline" ToolTip.Tip="Not implemented yet"></TextBlock>
 						<TextBlock Text="Einstellungen" FontSize="13" FontFamily="Segoe UI" Foreground="#CACCDC" TextDecorations="Underline" ToolTip.Tip="Not implemented yet"></TextBlock>
