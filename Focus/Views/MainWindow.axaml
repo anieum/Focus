@@ -18,7 +18,7 @@
 		
         ExtendClientAreaToDecorationsHint="True"
         ExtendClientAreaChromeHints="NoChrome"
-        ExtendClientAreaTitleBarHeightHint="-1">
+        ExtendClientAreaTitleBarHeightHint="34">
 
 	<!-- TODO: Icon="/Assets/avalonia-logo.ico" => Create and use Zen circle as logo -->
 	
@@ -102,15 +102,15 @@
 						</Style>
 						<Style Selector="Button:pointerover > Path">
 							<!-- todo: button is not being set to white, as long as the fill property is already defined in the path element -->
-							<Setter Property="Fill" Value="White"/>
+							<Setter Property="Fill" Value="#FFFFFF"/>
 						</Style>
 						<Style Selector="Button:not(:pointerover) > Path">
-							<Setter Property="Fill" Value="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
+							<Setter Property="Fill" Value="#BFBFBF"/>
 						</Style>
 					</Button.Styles>
 					<Path Margin="10,0,10,0"
 						  Stretch="Uniform"
-						  Fill="#BFBFBF"
+						  
 						  Data="M1169 1024l879 -879l-145 -145l-879 879l-879 -879l-145 145l879 879l-879 879l145 145l879 -879l879 879l145 -145z"></Path>
 				</Button>
 			</StackPanel>
@@ -224,6 +224,12 @@
 								<CornerRadius x:Key="ControlCornerRadius">7</CornerRadius>
 							</Button.Resources>
 							<PathIcon Data="{StaticResource stop_regular}"></PathIcon>
+						</Button>
+						<Button Command="{Binding IncrementDistractions}" IsVisible="{Binding FocusTaskIsPausable}">
+							<Button.Resources>
+								<CornerRadius x:Key="ControlCornerRadius">7</CornerRadius>
+							</Button.Resources>
+							<PathIcon Data="{StaticResource add_regular}"></PathIcon>
 						</Button>
 					</StackPanel>
 				</DockPanel>

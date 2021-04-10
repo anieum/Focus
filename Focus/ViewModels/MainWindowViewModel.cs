@@ -7,6 +7,7 @@ using Focus.Models;
 using ReactiveUI;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Avalonia.Controls;
 
 namespace Focus.ViewModels
 {
@@ -70,14 +71,20 @@ namespace Focus.ViewModels
             StartTaskCommand = ReactiveCommand.Create(ParseInputAndStartFocusTask);
             PauseTaskCommand = ReactiveCommand.Create(PauseFocusTask);
             StopTaskCommand = ReactiveCommand.Create(StopFocusTask);
+            IncrementDistractions = ReactiveCommand.Create(IncrementDistractionsOfTask);
         }
 
         // How to bind commands to buttons: https://avaloniaui.net/docs/binding/binding-to-commands
         public ReactiveCommand<Unit, Unit> StartTaskCommand { get; }
         public ReactiveCommand<Unit, Unit> PauseTaskCommand { get; }
         public ReactiveCommand<Unit, Unit> StopTaskCommand { get; }
+        public ReactiveCommand<Unit, Unit> IncrementDistractions { get; }
 
-
+        private void IncrementDistractionsOfTask()
+        {
+            _currentTask.IncrementDistractions();
+            this.RaisePropertyChanged(nameof(DistractionsText));
+        }
 
         private void ParseInputAndStartFocusTask()
         {
