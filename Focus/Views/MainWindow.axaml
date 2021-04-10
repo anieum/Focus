@@ -153,13 +153,21 @@
 						</Style>
 						<Style Selector="Border">
 							<Setter Property="CornerRadius" Value="7"/>
+							<!--
+							This will color an extra background layer between the textbox and the text.
+							If we introduce transparency we will see the textbox below not through the window.
 							<Setter Property="Background" Value="#343434"/>
+							-->
 						</Style>
 					</Grid.Styles>
 					<TextBlock Text="Ziel:" FontSize="20" FontFamily="Segoe UI" Foreground="#CACCDC" Margin="0 30 20 0" Grid.Column="0" Width="40"></TextBlock>
 
 					<!-- Round corner somehow? https://stackoverflow.com/questions/4779777/wpf-rounded-corner-textbox -->
-					<TextBox Grid.Column="1" Height="60" VerticalAlignment="Center" Watermark="Text eingeben ..." Text="{Binding UserEnteredText}" FontSize="16" TextWrapping="Wrap"></TextBox>
+					<TextBox Grid.Column="1" Height="60" VerticalAlignment="Center" Watermark="Text eingeben ..." Text="{Binding UserEnteredText}" FontSize="16" TextWrapping="Wrap">
+						<TextBox.Background>
+							<SolidColorBrush Color="#343434" Opacity="0.8"></SolidColorBrush>
+						</TextBox.Background>
+					</TextBox>
 						
 				</Grid>
 
@@ -201,19 +209,19 @@
 						</StackPanel.Styles>
 						<Button IsDefault="True" Command="{Binding StartTaskCommand}" IsVisible="{Binding FocusTaskIsStartable}">
 							<Button.Resources>
-								<CornerRadius x:Key="ControlCornerRadius">10</CornerRadius>
+								<CornerRadius x:Key="ControlCornerRadius">7</CornerRadius>
 							</Button.Resources>
 							<PathIcon Data="{StaticResource play_regular}"></PathIcon>
 						</Button>
 						<Button Command="{Binding PauseTaskCommand}" IsVisible="{Binding FocusTaskIsPausable}">
 							<Button.Resources>
-								<CornerRadius x:Key="ControlCornerRadius">10</CornerRadius>
+								<CornerRadius x:Key="ControlCornerRadius">7</CornerRadius>
 							</Button.Resources>
 							<PathIcon Data="{StaticResource pause_regular}"></PathIcon>
 						</Button>
 						<Button Command="{Binding StopTaskCommand}" IsVisible="{Binding FocusTaskIsStoppable}">
 							<Button.Resources>
-								<CornerRadius x:Key="ControlCornerRadius">10</CornerRadius>
+								<CornerRadius x:Key="ControlCornerRadius">7</CornerRadius>
 							</Button.Resources>
 							<PathIcon Data="{StaticResource stop_regular}"></PathIcon>
 						</Button>
@@ -221,6 +229,8 @@
 				</DockPanel>
 				<DockPanel Grid.Row="2" Grid.Column="1">
 					<StackPanel HorizontalAlignment="Right" VerticalAlignment="Bottom">
+						<TextBlock HorizontalAlignment="Right" Text="Abgeschlossen" FontSize="13" FontFamily="Segoe UI" Foreground="#00B050" IsVisible="{Binding TaskIsFinished}"></TextBlock>
+						<TextBlock HorizontalAlignment="Right" Text="Pausiert" FontSize="13" FontFamily="Segoe UI" Foreground="#FFC000" IsVisible="{Binding TaskIsPaused}"></TextBlock>
 						<TextBlock HorizontalAlignment="Right" Text="Verlauf" FontSize="13" FontFamily="Segoe UI" Foreground="#CACCDC" TextDecorations="Underline" ToolTip.Tip="Not implemented yet"></TextBlock>
 						<TextBlock HorizontalAlignment="Right" Text="Einstellungen" FontSize="13" FontFamily="Segoe UI" Foreground="#CACCDC" TextDecorations="Underline" ToolTip.Tip="Not implemented yet"></TextBlock>
 					</StackPanel>

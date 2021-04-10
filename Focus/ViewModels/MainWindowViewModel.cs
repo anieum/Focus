@@ -6,6 +6,7 @@ using System.Windows.Input;
 using Focus.Models;
 using ReactiveUI;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Focus.ViewModels
 {
@@ -20,12 +21,14 @@ namespace Focus.ViewModels
         private int _taskState = STOPPED; // state 0: not yet started / stopped; state 1: running; state 2: paused
 
         public string Greeting => "Welcome to Avalonia!";
-        public string StartText => _currentTask == FocusTask.Empty ? ":" : $": {_currentTask.StartTime}";
+        public string StartText => _currentTask == FocusTask.Empty ? ":" : $":     {_currentTask.StartTime}";
 
-        public string EndText => _currentTask == FocusTask.Empty ? ":" : $": {_currentTask.PlanedEndTime}";
+        public string EndText => _currentTask == FocusTask.Empty ? ":" : $":     {_currentTask.PlanedEndTime}";
 
-        public string DistractionsText => _currentTask == FocusTask.Empty ? ":" : $": {_currentTask.Distractions}";
-        public string AllowedWindowsText => _currentTask == FocusTask.Empty ? ":" : ": (not implemented yet)";
+        public string DistractionsText => _currentTask == FocusTask.Empty ? ":" : $":     {_currentTask.Distractions}";
+        public string AllowedWindowsText => _currentTask == FocusTask.Empty ? ":" : ":     (not implemented yet)";
+        public bool TaskIsPaused => _taskState == PAUSED;
+        public bool TaskIsFinished => _taskState == STOPPED && _currentTask.HasEnded;
 
         public string UserEnteredText { get; set; }
 
@@ -50,6 +53,9 @@ namespace Focus.ViewModels
                 this.RaisePropertyChanged(nameof(FocusTaskIsStartable));
                 this.RaisePropertyChanged(nameof(FocusTaskIsPausable));
                 this.RaisePropertyChanged(nameof(FocusTaskIsStoppable));
+                this.RaisePropertyChanged(nameof(TaskIsPaused));
+                this.RaisePropertyChanged(nameof(TaskIsFinished));
+                this.RaisePropertyChanged(nameof(EndText));
             }
         }
 
@@ -88,6 +94,10 @@ namespace Focus.ViewModels
 
                 }
             }
+            else
+            {
+                _currentTask.ResumeCountdown();
+            }
 
             TaskState = RUNNING;
             
@@ -99,22 +109,24 @@ namespace Focus.ViewModels
 
         private void PauseFocusTask()
         {
-            TaskState = PAUSED;
             System.Diagnostics.Debug.Print("Pausebutton was pressed. State: {0}", TaskState);
+
+            _currentTask.PauseCountdown();
+            
+            TaskState = PAUSED;
         }
 
         private void StopFocusTask()
         {
-            TaskState = STOPPED;
             System.Diagnostics.Debug.Print("Stopbutton was pressed. State: {0}", TaskState);
+
+            _currentTask.StopCountdown();
+
+            // Always update ui last. If this was implemented properly an update of the ui would update the _currentTask object. <- Todo
+            TaskState = STOPPED;
         }
 
-        private void updateTaskState()
-        {
-            // Update TaskState
-        }
-
-
+        // Todo: Should be static and part of the model
         private bool TryParseInput(string text, out DateTime endTime, out string nameOfTask)
         {
             // Ich werde bis um 15:00 Uhr
@@ -134,44 +146,30 @@ namespace Focus.ViewModels
                        where word.Contains(":")
                        select word;
 
-            endTime = DateTime.Parse(time.FirstOrDefault());
-
-
-            TimeSpan duration;
-
-            if (time.Count() > 1)
-                return false;
-
-            if (time.Count() == 0)
+            // TODO! time could be null
+            if (time.Any())
             {
-                // maybe it was given as a duration
-                // Ich werde jetzt 2 Stunden lernen
-                string[] durationWordlist =
-                {
-                    "s", "sec", "secs", "Sekunde", "Sekunden",
-                    "m", "min", "mins", "Minute", "Minuten", "mins",
-                    "h", "Std", "stds", "Stunde", "Stunden"
-                };
+                endTime = DateTime.Parse(time.FirstOrDefault());
 
-                durationWordlist = durationWordlist.Select(w => w.ToUpper()).ToArray();
-
-                var tmpDuration = from word in words
-                               where durationWordlist.Any(allowedWord => word.ToUpper().Equals(allowedWord))
-                               select word;
-
-                // There's no time given
-                if (tmpDuration.Count() != 1)
-                    return false;
-
-                // Or if there is
-                // TODO
-                //duration = TimeSpan.Parse(tmpDuration!.First());
+                if (endTime < DateTime.Now)
+                    endTime = endTime.AddDays(1);
             }
 
 
 
+            TimeSpan duration = TimeSpan.Zero;
+
+            if (time.Count() > 1)
+                return false;
+
+            if (time.Count() == 0 && !FocusTask.TryExtractDuration(text, out duration))
+                return false;
+
+            endTime = DateTime.Now.Add(duration);
+
+
             
-            nameOfTask = "";
+            nameOfTask = "ExampleName";
             return true;
         }
     }
